@@ -25,6 +25,20 @@ var test= document.getElementById("cookie-id");
 //var decodecookie= decodeURIComponent(document.cookie);
 test.addEventListener("click", function(){
   //document.cookie =document.getElementById("InputLocation");
-document.cookie = new Date() + '=' + document.getElementById("InputLocation").value;
-  var decodedcookie = document.cookie.split(";");
+  if(document.getElementById("InputLocation").value)
+  {
+    document.cookie = new Date() + '=' + document.getElementById("InputLocation").value;
+
+  // Create the list element:
+  var list = document.getElementById("historylist");
+  list.innerHTML='';
+  for (var i = 0; i < document.cookie.split(';').length; i++) {
+      // Create the list item:
+      var item = document.createElement('li');
+      item.innerHTML = document.cookie.split(';')[i];
+      // Set its contents:
+      list.appendChild(item);
+  }
+  }
+
 })
