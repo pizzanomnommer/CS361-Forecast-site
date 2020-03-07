@@ -1,15 +1,15 @@
 // JavaScript source code
 
-const TimeOfDay = object.freeze({"MORNING":1, "NOON":2, "EVENING":3, "NIGHT":4});
+//const TimeOfDay = object.freeze({"MORNING":1, "NOON":2, "EVENING":3, "NIGHT":4});
 
 var Conditions =
 {
-  SUNNY: { imgSrc = "../Conditions/Sunny.jpg" },
-  CLOUDY: { imgSrc = "../Conditions/Cloudy.jpg"},
-  PARTLY: { imgSrc = "../Conditions/Partly.jpg"},
-  RAIN: { imgSrc = "../Conditions/Rain.jpg"}, 
-  THUNDER: { imgSrc = "../Conditions/Thunder.jpg" },
-  SNOW: { imgSrc = "../Conditions/Snow.jpg"}
+  SUNNY: { imgSrc : "../Conditions/Sunny.jpg" },
+  CLOUDY: { imgSrc : "../Conditions/Cloudy.jpg"},
+  PARTLY: { imgSrc : "../Conditions/Partly.jpg"},
+  RAIN: { imgSrc : "../Conditions/Rain.jpg"}, 
+  THUNDER: { imgSrc : "../Conditions/Thunder.jpg" },
+  SNOW: { imgSrc : "../Conditions/Snow.jpg"}
 };
 
 class Forecast
@@ -26,10 +26,12 @@ class Forecast
   get Day() { return this.Day; } 
   get Temp() { return this.Temp; }
   get Condition() { return this.Condition; }
-
 }
 
-//geolocation
+console.log(Conditions.SUNNY.imgSrc);
+
+//      geolocation
+
 function ShowPosition(position) { // Test getlocation function by formating data
     x.innerHTML = "Latitude: " + position.coords.latitude +
     "<br>Longitude: " + position.coords.longitude;
@@ -38,31 +40,39 @@ function ShowPosition(position) { // Test getlocation function by formating data
 var x = document.getElementById("demo"); // Test code
 
 var checkGeoLocButton = document.getElementById("test-geolocation"); // Tests geolocator
-  checkGeoLocButton.addEventListener("click", function(){
+
+checkGeoLocButton.addEventListener("click", function(){
+
   //console.log("I was clicked");
   //var k = document.getElementById("demo");
   //k.innerHTML = "Button was clicked";
-  navigator.geolocation.getCurrentPosition(showPosition);
+
+  navigator.geolocation.getCurrentPosition(ShowPosition);
+
   // check for Geolocation support
 
-  if (navigator.geolocation) {
-      console.log("Geolocation is supported!");
-    }
+  if (navigator.geolocation) 
+  {
+    console.log("Geolocation is supported!");
+  }
 
-  else {
-      console.log("Geolocation is not supported for this Browser/OS.");
+  else
+  {
+    console.log("Geolocation is not supported for this Browser/OS.");
   }
 
 })
 
-// history
+//                 * * * * * history * * * * *
 
 //const input = document.querySelector('input');
 //input.addEventListener("input",getcookieinput);
-var test= document.getElementById("cookie-id");
 //var decodecookie= decodeURIComponent(document.cookie);
 
-test.addEventListener("click", function(){
+var test = document.getElementById("cookie-id");
+
+test.addEventListener("click", function()
+{
   //document.cookie =document.getElementById("InputLocation");
   if(document.getElementById("InputLocation").value)
   {
@@ -71,17 +81,22 @@ test.addEventListener("click", function(){
     // Create the list element:
     var list = document.getElementById("historylist");
     list.innerHTML='';
-    for (var i = 0; i < document.cookie.split(';').length; i++) {
+
+    for (var i = 0; i < document.cookie.split(';').length; i++)
+    {
       // Create the list item:
       var item = document.createElement('li');
       item.innerHTML = document.cookie.split(';')[i];
       // Set its contents:
       list.appendChild(item);
     }
-  }
-})
 
-// Day breakdown
+  }
+  
+});
+
+//           Day breakdown
+
 function DayBreakdown(forecasts)
 {
   const dy = 10;
