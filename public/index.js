@@ -5,12 +5,12 @@ const TimeOfDAY =
 
 var Conditions =
 {
-  SUNNY: { imgSrc : "/Sunny.jpg" },
-  CLOUDY: { imgSrc : "/Cloudy.png"},
-  PARTLY: { imgSrc : "/Partly.jpg"},
-  RAIN: { imgSrc : "/Rain.jpg"},
-  THUNDER: { imgSrc : "/Thunder.png" },
-  SNOW: { imgSrc : "/Snow.png"}
+  SUNNY:   "Sunny.jpg",
+  CLOUDY:  "Cloudy.png",
+  PARTLY:  "Partly.jpg",
+  RAIN:    "Rain.jpg",
+  THUNDER: "Thunder.png",
+  SNOW:    "Snow.png"
 };
 
 //Test information for DayBreakdown
@@ -37,11 +37,13 @@ class Forecast
 }
 
 const testForecast1 =
-  new Forecast("MORNING", "MONDAY", 83,Conditions.THUNDER.imgSrc);
+  new Forecast("MORNING", "MONDAY", 83,Conditions.THUNDER);
 const testForecast2 =
-  new Forecast("NOON", "TUESDAY", 65,Conditions.SUNNY.imgSrc);
+  new Forecast("NOON", "TUESDAY", 65,Conditions.SUNNY);
+  const testForecast3 =
+    new Forecast("EVENING", "WEDNESDAY", 42,Conditions.RAIN);
 
-const forecasts = [testForecast1, testForecast2];
+const forecasts = [testForecast1, testForecast2, testForecast3];
 
 //      geolocation
 
@@ -113,25 +115,39 @@ test.addEventListener("click", function()
 // Directly from an integer or forecasts. Further testing required
 function DayBreakdown()
 {
-  const dy = 10;
-  const dx = 10;
+  const dy = 20;
+  const dx = 15;
+  let width = 50;
+  var height = 0;
   // Forecasts is a list of forecasts.
   var c = document.getElementById("myCanvas");
   var ctx = c.getContext("2d");
-  var j = 0;
   var i;
   for(i = 0;i < forecasts.length; i++)
   {
-    if(i % 4 == 0) { j++; }
-    var img = forecasts[i].Condition;
-    let myImg = new Image(100,100);
-    myImg.src = img;
-    ctx.drawImage(myImg, 10, 10);
-    ctx.fillText(forecasts[i].temp, dx * i, dy * j);
-    ctx.fillText(forecasts[i].TimeOfDay, dx * i, dy * j);
-    ctx.fillText(forecasts[i].Condition, dx * i, dy * j);
+    //Image position needs to be corrected for each forecast, once done you can replace
+    //the line ctx.fillText(forecasts[i].Condition, dx + (width * 3), dy + height);
+    //With the myImg.onload function.
+    myImg = new Image();
+    myImg.src = forecasts[i].Condition;
+    myImg.onload = function(){
+      ctx.drawImage(myImg, dx + width, dy + height, 20, 20);
+    }
+
+    ctx.fillText(forecasts[i].Temp, dx, dy + height);
+    ctx.fillText(forecasts[i].TimeOfDAY, dx + width, dy + height);
+    ctx.fillText(forecasts[i].Condition, dx + (width * 3), dy + height);
+    height += 30;
   }
 }
+
+/*
+var newDiv = document.createElement("div");
+var image = document.createElement("img");
+image.src = "Sunny.jpg";
+newDiv.appendChild(image);
+document.getElementById("demo").appendChild(newDiv);
+*/
 
 // Testing DayBreakdown, Since DayBreakdown doesn't draw it will not draw.
 // But it is successfully taking in information through manual testing (can confirm the corecast condition)
