@@ -11,9 +11,12 @@ app.use(express.static('public'));
 
 app.get("/", function(req, res, next) {
     res.status(200).render("index", {
-        
+
     });
 });
+
+//For user story 4, if a string is passed onto the website
+//ie website.com/string it will then search for the string
 
 /*
 app.get("*", function(req, res, next) {
@@ -26,5 +29,4 @@ app.get("*", function(req, res, next) {
 
 app.listen(port, function(){
     console.log("Hello world", port);
-}) 
-
+})

@@ -1,34 +1,47 @@
 // JavaScript source code
 
-//const TimeOfDay = object.freeze({"MORNING":1, "NOON":2, "EVENING":3, "NIGHT":4});
+const TimeOfDAY =
+  {1:"MORNING", 2:"NOON", 3:"EVENING", 4:"NIGHT"};
 
 var Conditions =
 {
-  SUNNY: { imgSrc : "../Conditions/Sunny.jpg" },
-  CLOUDY: { imgSrc : "../Conditions/Cloudy.jpg"},
-  PARTLY: { imgSrc : "../Conditions/Partly.jpg"},
-  RAIN: { imgSrc : "../Conditions/Rain.jpg"}, 
-  THUNDER: { imgSrc : "../Conditions/Thunder.jpg" },
-  SNOW: { imgSrc : "../Conditions/Snow.jpg"}
+  SUNNY: { imgSrc : "/Sunny.jpg" },
+  CLOUDY: { imgSrc : "/Cloudy.png"},
+  PARTLY: { imgSrc : "/Partly.jpg"},
+  RAIN: { imgSrc : "/Rain.jpg"},
+  THUNDER: { imgSrc : "/Thunder.png" },
+  SNOW: { imgSrc : "/Snow.png"}
 };
+
+//Test information for DayBreakdown
 
 class Forecast
 {
   constructor(timeOfDay, day, temp, condition)
   {
-    this.TimeOfDay = timeOfDay;
+    this.TimeOfDAY = timeOfDay;
     this.Day = day;
     this.Temp = temp;
     this.Condition = condition;
   }
 
+//We Do not need getters because without setters the object
+//will give warnings that you need setters.
+/*
+
   get TimeOfDay() { return this.TimeOfDay; }
-  get Day() { return this.Day; } 
+  get Day() { return this.Day; }
   get Temp() { return this.Temp; }
   get Condition() { return this.Condition; }
+  */
 }
 
-console.log(Conditions.SUNNY.imgSrc);
+const testForecast1 =
+  new Forecast("MORNING", "MONDAY", 83,Conditions.THUNDER.imgSrc);
+const testForecast2 =
+  new Forecast("NOON", "TUESDAY", 65,Conditions.SUNNY.imgSrc);
+
+const forecasts = [testForecast1, testForecast2];
 
 //      geolocation
 
@@ -51,7 +64,7 @@ checkGeoLocButton.addEventListener("click", function(){
 
   // check for Geolocation support
 
-  if (navigator.geolocation) 
+  if (navigator.geolocation)
   {
     console.log("Geolocation is supported!");
   }
@@ -92,29 +105,37 @@ test.addEventListener("click", function()
     }
 
   }
-  
+
 });
 
 //           Day breakdown
-
-function DayBreakdown(forecasts)
+// ctx.fillText Most likely displaying undefined due to it cannot handle information
+// Directly from an integer or forecasts. Further testing required
+function DayBreakdown()
 {
   const dy = 10;
   const dx = 10;
-
   // Forecasts is a list of forecasts.
   var c = document.getElementById("myCanvas");
   var ctx = c.getContext("2d");
   var j = 0;
-  for(i = 0; i < forecasts.length; i++)
+  var i;
+  for(i = 0;i < forecasts.length; i++)
   {
     if(i % 4 == 0) { j++; }
-    var img = forecasts[i].condition;
+    var img = forecasts[i].Condition;
+    let myImg = new Image(100,100);
+    myImg.src = img;
+    ctx.drawImage(myImg, 10, 10);
     ctx.fillText(forecasts[i].temp, dx * i, dy * j);
     ctx.fillText(forecasts[i].TimeOfDay, dx * i, dy * j);
-    ctx.fillText(forecasts[i].Condition), dx * i, dy * j;
+    ctx.fillText(forecasts[i].Condition, dx * i, dy * j);
   }
 }
+
+// Testing DayBreakdown, Since DayBreakdown doesn't draw it will not draw.
+// But it is successfully taking in information through manual testing (can confirm the corecast condition)
+DayBreakdown();
 
 // Get list of forecast info's, and average them. Return the average forecast
 function Aggregate()
@@ -122,7 +143,7 @@ function Aggregate()
 
 }
 
-// query api for weather data, in future should pass in location, and time 
+// query api for weather data, in future should pass in location, and time
 function GetAPIData()
 {
 
