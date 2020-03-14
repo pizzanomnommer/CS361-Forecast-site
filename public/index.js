@@ -1,5 +1,19 @@
 // JavaScript source code
 
+// Setup request for weather API
+let requestURL = 'api.openweathermap.org/data/2.5/weather?q=Corvallis,Oregon&appid=82df1091de59371402b32532b8820aea';
+let request = new XMLHttpRequest();
+request.open('GET', requestURL);
+request.responseType = 'json';
+request.send();
+
+// Request API
+request.onload = function() {
+  const ForecastAPI = request.response;
+  console.log(ForecastAPI);
+}
+
+// Setup variables for forecast
 const TimeOfDAY =
   {1:"MORNING", 2:"NOON", 3:"EVENING", 4:"NIGHT"};
 
@@ -79,16 +93,11 @@ checkGeoLocButton.addEventListener("click", function(){
 })
 
 //                 * * * * * history * * * * *
-
-//const input = document.querySelector('input');
-//input.addEventListener("input",getcookieinput);
-//var decodecookie= decodeURIComponent(document.cookie);
-
+// Set up cookie system
 var test = document.getElementById("cookie-id");
 
 test.addEventListener("click", function()
 {
-  //document.cookie =document.getElementById("InputLocation");
   if(document.getElementById("InputLocation").value)
   {
     document.cookie = new Date() + '=' + document.getElementById("InputLocation").value;
@@ -140,14 +149,6 @@ function DayBreakdown()
     height += 30;
   }
 }
-
-/*
-var newDiv = document.createElement("div");
-var image = document.createElement("img");
-image.src = "Sunny.jpg";
-newDiv.appendChild(image);
-document.getElementById("demo").appendChild(newDiv);
-*/
 
 // Testing DayBreakdown, Since DayBreakdown doesn't draw it will not draw.
 // But it is successfully taking in information through manual testing (can confirm the corecast condition)
